@@ -56,10 +56,15 @@
   var map = L.map(elMap, { minZoom: 2, worldCopyJump: true }).setView([-38, -63], 4);
   var STYLE = CFG.style || 'https://tiles.openfreemap.org/styles/positron'; // OpenFreeMap Positron (sin API key)
   var OFM_ATTR = '<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener">&copy; OpenMapTiles</a> Data from <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>';
-  if (L.maplibreGL && window.maplibregl) {
-    L.maplibreGL({ style: STYLE, attribution: OFM_ATTR }).addTo(map);
-  } else { // plan B si no cargó MapLibre: mapa de OpenStreetMap
-    console.warn('Mapa PV: MapLibre no cargó, uso mapa base de respaldo.');
+  var vectorOk = false;
+  try {
+    if (L.maplibreGL && window.maplibregl) {
+      L.maplibreGL({ style: STYLE, attribution: OFM_ATTR }).addTo(map);
+      vectorOk = true;
+    }
+  } catch (e) { console.error('Mapa PV: falló el mapa vectorial', e); }
+  if (!vectorOk) { // plan B: mapa de OpenStreetMap, para que los puntos se vean igual
+    console.warn('Mapa PV: uso mapa base de respaldo.');
     L.tileLayer(TILE_URL, { maxZoom: 19, attribution: TILE_ATTR }).addTo(map);
   }
 
