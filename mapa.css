@@ -69,10 +69,11 @@
 .pv-pop span { display: block; font-size: 14px; color: var(--pv-muted); line-height: 1.4; }
 .pv-pop a { display: inline-block; margin-top: 8px; font-size: 14px; color: var(--pv-brand); text-decoration: underline; }
 
-/* Celular: listado arriba, mapa abajo */
+/* Celular: mapa abajo, listado arriba */
 @media (max-width: 767px) {
-  .pv-app { grid-template-columns: 1fr; grid-template-rows: auto 60vh; height: auto; min-height: 0; }
-  .pv-side { border-right: 0; border-bottom: 1px solid var(--pv-line); }
+  .pv-app { grid-template-columns: 1fr; grid-template-rows: 60vh auto; height: auto; min-height: 0; }
+  .pv-map { order: -1; }
+  .pv-side { border-right: 0; border-top: 1px solid var(--pv-line); }
   .pv-list { max-height: 320px; }
   .pv-search { padding: 16px; }
   .pv-count, .pv-item button { padding-left: 16px; padding-right: 16px; }
