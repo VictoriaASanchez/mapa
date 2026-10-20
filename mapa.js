@@ -26,8 +26,10 @@
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
   }
-  function num(v) { // acepta -34.60 y -34,60
-    return parseFloat(String(v == null ? '' : v).trim().replace(',', '.'));
+  function num(v) { // acepta -34.60 y -34,60; rechaza -34.603.722 (puntos de miles) en vez de ubicarlo mal
+    var s = String(v == null ? '' : v).trim();
+    if (!/^-?\d+([.,]\d+)?$/.test(s)) return NaN;
+    return parseFloat(s.replace(',', '.'));
   }
   function fmt(n) { return n.toLocaleString('es-AR'); }
 
@@ -76,8 +78,8 @@
 
   function popupHtml(it) {
     var dir = 'https://www.google.com/maps/dir/?api=1&destination=' + it.lat + ',' + it.lng;
-    return '<div class="pv-pop"><strong>' + esc(it.nombre) + '</strong><span>' + esc(it.direccion) + '</span><span>' +
-      esc([it.provincia, it.pais].filter(Boolean).join(', ')) + '</span><a href="' + dir + '" target="_blank" rel="noopener">Cómo llegar</a></div>';
+    return '<div class="pv-pop"><strong>' + esc(it.nombre) + '</strong><span>' +
+      esc([it.direccion, it.provincia].filter(Boolean).join(', ')) + '</span><a href="' + dir + '" target="_blank" rel="noopener">Cómo llegar →</a></div>';
   }
 
   function load() {
@@ -112,7 +114,7 @@
       var it = { pais: get(r, 'pais'), provincia: get(r, 'provincia'), nombre: get(r, 'nombre'), direccion: get(r, 'direccion'), lat: lat, lng: lng };
       it.key = norm([it.pais, it.provincia, it.nombre, it.direccion].join(' '));
       it.sort = norm(it.nombre);
-      it.marker = L.marker([lat, lng], { icon: pinIcon, title: it.nombre }).bindPopup(function () { return popupHtml(it); });
+      it.marker = L.marker([lat, lng], { icon: pinIcon, title: it.nombre }).bindPopup(function () { return popupHtml(it); }, { maxWidth: 340, minWidth: 260 });
       ITEMS.push(it);
     });
     if (skipped) console.warn('Mapa PV: ' + skipped + ' filas ignoradas (coordenadas o nombre inválidos).');
