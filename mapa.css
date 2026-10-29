@@ -1,9 +1,9 @@
 /* Mapa de puntos de venta: estilos. Todo está bajo .pv-app para no chocar con Webflow */
 .pv-app {
   --pv-bg: #fdf0e6;
-  --pv-line: #e9cfbd;
-  --pv-ink: #2a1308;
-  --pv-muted: #a8725a;
+  --pv-line: #efd3c3;
+  --pv-red: #be1335;
+  --pv-dark: #5b0812;
   --pv-brand: #2b1409;
   --pv-hover: #f8e3d3;
   display: grid;
@@ -11,41 +11,46 @@
   height: 80vh;
   min-height: 560px;
   background: var(--pv-bg);
-  color: var(--pv-ink);
-  font-family: inherit;
+  color: var(--pv-red);
+  border-radius: 32px;
+  overflow: hidden;
   box-sizing: border-box;
 }
+.pv-app, .pv-app * { font-family: 'Chivo', sans-serif; }
 .pv-app *, .pv-app *::before, .pv-app *::after { box-sizing: border-box; }
 
 /* Panel izquierdo */
 .pv-side { display: flex; flex-direction: column; min-height: 0; border-right: 1px solid var(--pv-line); }
-.pv-search { padding: 24px 24px 20px; }
+.pv-search { padding: 20px 20px 16px; }
 .pv-search label { position: relative; display: block; }
-.pv-search svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; color: var(--pv-muted); pointer-events: none; }
+.pv-search svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--pv-red); pointer-events: none; }
 .pv-input {
-  width: 100%; height: 52px; margin: 0; padding: 0 16px 0 46px;
+  width: 100%; height: 46px; margin: 0; padding: 0 14px 0 42px;
   border: 1.5px solid var(--pv-line); border-radius: 14px;
-  background: transparent; color: var(--pv-ink);
-  font: inherit; font-size: 18px;
+  background: transparent; color: var(--pv-red);
+  font-size: 15px; font-weight: 500;
 }
-.pv-input::placeholder { color: var(--pv-muted); opacity: .85; }
-.pv-input:focus-visible { outline: 2px solid var(--pv-brand); outline-offset: 2px; }
-.pv-count { margin: 0; padding: 14px 24px; border-top: 1px solid var(--pv-line); border-bottom: 1px solid var(--pv-line); color: var(--pv-muted); font-size: 16px; }
-.pv-count strong { color: var(--pv-ink); font-weight: 500; }
+.pv-input::placeholder { color: var(--pv-red); opacity: .65; font-weight: 500; }
+.pv-input:focus-visible { outline: 2px solid var(--pv-red); outline-offset: 2px; }
+.pv-count { margin: 0; padding: 12px 20px; border-top: 1px solid var(--pv-line); border-bottom: 1px solid var(--pv-line); color: var(--pv-red); font-size: 14px; font-weight: 500; }
+.pv-count strong { font-weight: 800; }
 
 .pv-list { flex: 1; min-height: 0; margin: 0; padding: 0; list-style: none; overflow-y: auto; scrollbar-color: var(--pv-line) transparent; }
 .pv-item { margin: 0; padding: 0; border-bottom: 1px solid var(--pv-line); }
 .pv-item button {
-  display: flex; gap: 14px; align-items: flex-start; width: 100%;
-  padding: 20px 24px; margin: 0; border: 0; background: transparent;
-  text-align: left; font: inherit; color: inherit; cursor: pointer;
+  display: flex; gap: 12px; align-items: flex-start; width: 100%;
+  padding: 14px 20px; margin: 0; border: 0; background: transparent;
+  text-align: left; color: inherit; cursor: pointer;
 }
 .pv-item button:hover, .pv-item.is-active button { background: var(--pv-hover); }
-.pv-item button:focus-visible { outline: 2px solid var(--pv-brand); outline-offset: -2px; }
-.pv-item svg { flex: none; width: 22px; height: 28px; margin-top: 3px; color: var(--pv-brand); }
-.pv-name { display: block; font-size: 20px; line-height: 1.25; }
-.pv-addr { display: block; margin-top: 4px; font-size: 16px; line-height: 1.35; color: var(--pv-muted); }
-.pv-empty { padding: 28px 24px; color: var(--pv-muted); font-size: 16px; line-height: 1.5; }
+.pv-item button:focus-visible { outline: 2px solid var(--pv-red); outline-offset: -2px; }
+.pv-item svg { flex: none; width: 18px; height: 23px; margin-top: 2px; color: var(--pv-red); }
+.pv-text { display: block; min-width: 0; }
+.pv-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 8px; }
+.pv-name { font-size: 15px; font-weight: 800; line-height: 1.3; color: var(--pv-red); }
+.pv-prov { font-size: 14px; font-weight: 500; line-height: 1.3; color: var(--pv-red); }
+.pv-addr { display: block; margin-top: 2px; font-size: 13px; font-weight: 400; line-height: 1.35; color: var(--pv-red); }
+.pv-empty { padding: 24px 20px; color: var(--pv-red); font-size: 14px; font-weight: 500; line-height: 1.5; }
 
 /* Mapa */
 .pv-map { min-height: 0; height: 100%; background: #c9cfd2; z-index: 0; }
@@ -61,29 +66,38 @@
   background: var(--pv-brand); color: var(--pv-bg);
   border: 3px solid rgba(253, 240, 230, .35);
   box-shadow: 0 0 0 2px var(--pv-brand), 0 4px 14px rgba(43, 20, 9, .35);
-  font-size: 16px; font-weight: 500;
+  font-size: 14px; font-weight: 700;
 }
 
-/* Popup: contenedor redondeado */
-.pv-app .leaflet-popup-content-wrapper { border-radius: 24px; padding: 6px 8px; background: #fff; box-shadow: 0 8px 30px rgba(43, 20, 9, .18); }
-.pv-app .leaflet-popup-content { margin: 16px 20px; line-height: 1.3; }
-.pv-app .leaflet-popup-tip { background: #fff; box-shadow: none; }
-.pv-app .leaflet-container a.leaflet-popup-close-button { top: 14px; right: 14px; width: 28px; height: 28px; font: 300 28px/28px Arial, sans-serif; color: #6f6a67; }
-.pv-app .leaflet-container a.leaflet-popup-close-button:hover { color: var(--pv-ink); }
+/* Popup: contenedor (reglas reforzadas para que Webflow no las pise) */
+.pv-app .leaflet-popup-content-wrapper { background: #fff !important; border-radius: 20px !important; padding: 2px 4px !important; box-shadow: 0 8px 30px rgba(43, 20, 9, .18) !important; }
+.pv-app .leaflet-popup-content { margin: 14px 16px !important; line-height: 1.3 !important; }
+.pv-app .leaflet-popup-tip { background: #fff !important; box-shadow: none !important; }
+.pv-app .leaflet-container a.leaflet-popup-close-button { top: 10px; right: 10px; width: 24px; height: 24px; font: 300 24px/24px Arial, sans-serif; color: var(--pv-red); text-decoration: none; }
+.pv-app .leaflet-container a.leaflet-popup-close-button:hover { color: var(--pv-dark); }
 
 /* Popup: textos */
-.pv-pop { font-family: inherit; }
-.pv-pop strong { display: block; margin: 0 24px 10px 0; font-size: 22px; font-weight: 400; color: var(--pv-ink); }
-.pv-pop span { display: block; font-size: 17px; color: #a07c6c; }
-.pv-pop a { display: inline-block; margin-top: 16px; font-size: 19px; font-weight: 700; color: #0a7ba6; text-decoration: none; }
-.pv-pop a:hover { text-decoration: underline; }
+.pv-app .pv-pop { text-align: left; }
+.pv-app .pv-pop .pv-pop-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 8px; margin: 0 20px 0 0 !important; }
+.pv-app .pv-pop .pv-pop-name,
+.pv-app .pv-pop .pv-pop-prov,
+.pv-app .pv-pop .pv-pop-addr,
+.pv-app .pv-pop .pv-pop-link { font-family: 'Chivo', sans-serif !important; margin: 0 !important; padding: 0 !important; text-transform: none !important; letter-spacing: normal !important; font-style: normal !important; word-break: normal !important; line-height: 1.3 !important; }
+.pv-app .pv-pop .pv-pop-name { font-size: 16px !important; font-weight: 800 !important; color: var(--pv-red) !important; }
+.pv-app .pv-pop .pv-pop-prov { font-size: 14px !important; font-weight: 500 !important; color: var(--pv-red) !important; }
+.pv-app .pv-pop .pv-pop-addr { display: block; margin-top: 4px !important; font-size: 13px !important; font-weight: 400 !important; color: var(--pv-red) !important; }
+.pv-app .pv-pop .pv-pop-link { display: inline-block; margin-top: 12px !important; font-size: 14px !important; font-weight: 700 !important; color: var(--pv-dark) !important; text-decoration: none !important; }
+.pv-app .pv-pop .pv-pop-link:hover { text-decoration: underline !important; }
 
-/* Celular: listado arriba, mapa abajo */
+/* Celular: mapa arriba, listado abajo */
 @media (max-width: 767px) {
   .pv-app { grid-template-columns: 1fr; grid-template-rows: 60vh auto; height: auto; min-height: 0; }
   .pv-map { order: -1; }
   .pv-side { border-right: 0; border-top: 1px solid var(--pv-line); }
-  .pv-list { max-height: 320px; }
-  .pv-search { padding: 16px; }
+  .pv-list { max-height: 300px; }
+  .pv-search { padding: 14px 16px; }
   .pv-count, .pv-item button { padding-left: 16px; padding-right: 16px; }
+  .pv-item button { padding-top: 12px; padding-bottom: 12px; }
+  .pv-name { font-size: 14px; }
+  .pv-prov { font-size: 13px; }
 }
