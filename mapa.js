@@ -90,8 +90,10 @@
 
   function popupHtml(it) {
     var dir = 'https://www.google.com/maps/dir/?api=1&destination=' + it.lat + ',' + it.lng;
-    return '<div class="pv-pop"><strong>' + esc(it.nombre) + '</strong><span>' +
-      esc([it.direccion, it.provincia].filter(Boolean).join(', ')) + '</span><a href="' + dir + '" target="_blank" rel="noopener">Cómo llegar →</a></div>';
+    return '<div class="pv-pop"><div class="pv-pop-head"><span class="pv-pop-name">' + esc(it.nombre) + '</span>' +
+      (it.provincia ? '<span class="pv-pop-prov">' + esc(it.provincia) + '</span>' : '') + '</div>' +
+      '<div class="pv-pop-addr">' + esc(it.direccion) + '</div>' +
+      '<a class="pv-pop-link" href="' + dir + '" target="_blank" rel="noopener">Cómo llegar →</a></div>';
   }
 
   function load() {
@@ -126,7 +128,7 @@
       var it = { pais: get(r, 'pais'), provincia: get(r, 'provincia'), nombre: get(r, 'nombre'), direccion: get(r, 'direccion'), lat: lat, lng: lng };
       it.key = norm([it.pais, it.provincia, it.nombre, it.direccion].join(' '));
       it.sort = norm(it.nombre);
-      it.marker = L.marker([lat, lng], { icon: pinIcon, title: it.nombre }).bindPopup(function () { return popupHtml(it); }, { maxWidth: 340, minWidth: 260 });
+      it.marker = L.marker([lat, lng], { icon: pinIcon, title: it.nombre }).bindPopup(function () { return popupHtml(it); }, { maxWidth: 300, minWidth: 200 });
       ITEMS.push(it);
     });
     if (skipped) console.warn('Mapa PV: ' + skipped + ' filas ignoradas (coordenadas o nombre inválidos).');
@@ -166,8 +168,8 @@
   function itemEl(it) {
     var li = document.createElement('li');
     li.className = 'pv-item';
-    li.innerHTML = '<button type="button">' + PIN_SVG + '<span><span class="pv-name">' + esc(it.nombre) +
-      '</span><span class="pv-addr">' + esc([it.direccion, it.provincia].filter(Boolean).join(', ')) + '</span></span></button>';
+    li.innerHTML = '<button type="button">' + PIN_SVG + '<span class="pv-text"><span class="pv-head"><span class="pv-name">' + esc(it.nombre) + '</span>' +
+      (it.provincia ? '<span class="pv-prov">' + esc(it.provincia) + '</span>' : '') + '</span><span class="pv-addr">' + esc(it.direccion) + '</span></span></button>';
     li.firstChild.addEventListener('click', function () {
       if (activeLi) activeLi.classList.remove('is-active');
       li.classList.add('is-active');
